@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles.css";
 
+// API_BASE_URL from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +20,7 @@ function Login() {
     formData.append("password", password);
 
     try {
-      const response = await axios.post("http://localhost:8000/login", formData, {
+      const response = await axios.post(`${API_BASE_URL}/login`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -7,6 +7,8 @@ const generateReferenceId = () => {
   return uuidv4(); // Generates a unique reference ID
 };
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 function PredictionPage() {
   const [images, setImages] = useState([]);
   const [publicationYear, setPublicationYear] = useState('');
@@ -44,7 +46,7 @@ function PredictionPage() {
     formData.append('price_image', priceImage); // Sending the price image to backend
 
     try {
-      const response = await axios.post('http://localhost:8000/extract-price', formData, {
+      const response = await axios.post(`${API_BASE_URL}/extract-price`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -81,7 +83,7 @@ function PredictionPage() {
     formData.append('reference_id', referenceId);
 
     try {
-      const response = await axios.post('http://localhost:8000/store-book-details', formData, {
+      const response = await axios.post(`${API_BASE_URL}/store-book-details`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -117,7 +119,7 @@ function PredictionPage() {
     formData.append('reference_id', referenceId);
 
     try {
-      await axios.post('http://localhost:8000/upload-book', formData, {
+      await axios.post(`${API_BASE_URL}/upload-book`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -138,7 +140,6 @@ function PredictionPage() {
   return (
     <div className="mx-auto p-16 top-[6rem] w-full max-w-7xl relative">
       <h1 className="text-3xl font-bold mb-2 text-center">Predict Book Selling Price</h1>
-
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <form onSubmit={handleSubmit}>

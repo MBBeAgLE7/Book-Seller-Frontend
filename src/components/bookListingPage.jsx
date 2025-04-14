@@ -4,6 +4,8 @@ import { FaShoppingCart } from 'react-icons/fa';
 import CartIcon from './cartIcon';
 import ProfileIcon from './profileSection';
 
+// API_BASE_URL from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function BookListingsPage() {
   const [books, setBooks] = useState([]);
@@ -15,7 +17,7 @@ function BookListingsPage() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/books');
+        const response = await axios.get(`${API_BASE_URL}/books`);
         setBooks(response.data.books);
       } catch (error) {
         console.error('Error fetching books:', error);
@@ -41,7 +43,7 @@ function BookListingsPage() {
       formData.append('email', email);
       formData.append('reference_id', book.reference_id);
 
-      await axios.post('http://localhost:8000/add-to-cart', formData);
+      await axios.post(`${API_BASE_URL}/add-to-cart`, formData);
       alert('Book added to cart!');
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -51,8 +53,8 @@ function BookListingsPage() {
 
   return (
     <div className="mx-auto p-6 w-full max-w-7xl relative">
-        <CartIcon/>
-        <ProfileIcon/>
+        <CartIcon />
+        <ProfileIcon />
       <h1 className="text-3xl font-bold mb-6 text-center">Book Listings</h1>
 
       {/* Search bar */}

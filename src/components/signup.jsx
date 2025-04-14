@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"; // Use useNavigate for React Rou
 import axios from "axios"; // Import axios for API requests
 import "./styles.css"; // Importing normal CSS file
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +23,7 @@ function Signup() {
     formData.append("role", role);
 
     try {
-      const response = await axios.post("http://localhost:8000/signup", formData, {
+      const response = await axios.post(`${API_BASE_URL}/signup`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type for form data
         },

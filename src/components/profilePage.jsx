@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa"; // Import pencil icon
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const ProfilePage = () => {
   const email = localStorage.getItem("email");
   const role = localStorage.getItem("role");
@@ -16,11 +18,11 @@ const ProfilePage = () => {
   // Fetch user data
   const fetchUserData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/user-profile?email=${email}`);
+      const res = await axios.get(`${API_BASE_URL}/user-profile?email=${email}`);
       setUserData(res.data.user);
 
       if (res.data.user && res.data.user.email) {
-        const cartRes = await axios.get(`http://localhost:8000/cart?email=${res.data.user.email}`);
+        const cartRes = await axios.get(`${API_BASE_URL}/cart?email=${res.data.user.email}`);
         setBooks(cartRes.data.cart_items || []);
       }
     } catch (err) {
@@ -35,7 +37,7 @@ const ProfilePage = () => {
     formData.append("image", e.target.files[0]);  // Appending the file
 
     try {
-      const res = await axios.post("http://localhost:8000/upload-profile-image", formData, {
+      const res = await axios.post(`${API_BASE_URL}/upload-profile-image`, formData, {
         headers: { "Content-Type": "multipart/form-data" }, // Set header to handle FormData
       });
 
@@ -109,14 +111,14 @@ const ProfilePage = () => {
           Back to Shop
         </button>
         <button
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"
-            onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-            }}
-            >
-            Logout
-            </button>
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"
+          onClick={() => {
+            localStorage.clear();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

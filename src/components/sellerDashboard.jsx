@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import ProfileIcon from './profileSection';
 import ProfilePage from './profilePage';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 function SellerDashboard() {
   const [books, setBooks] = useState([]);
   const email = localStorage.getItem("email");
@@ -14,7 +16,7 @@ function SellerDashboard() {
   }, []);
 
   const fetchBooks = async () => {
-    const res = await axios.get(`http://localhost:8000/seller/books?email=${email}`);
+    const res = await axios.get(`${API_BASE_URL}/seller/books?email=${email}`);
     setBooks(res.data.books);
   };
 
@@ -70,7 +72,7 @@ function SellerDashboard() {
                 <button
                   onClick={() => {
                     if (window.confirm("Are you sure you want to delete this book?")) {
-                      axios.delete(`http://localhost:8000/seller/book/${book.reference_id}`).then(() => {
+                      axios.delete(`${API_BASE_URL}/seller/book/${book.reference_id}`).then(() => {
                         alert("Book deleted");
                         fetchBooks();
                       }).catch(err => {

@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import axios from 'axios';
 
+// API_BASE_URL from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const CartIcon = () => {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -15,7 +18,7 @@ const CartIcon = () => {
     }
     if (!showCart && email) {
       try {
-        const res = await axios.get(`http://localhost:8000/cart?email=${email}`);
+        const res = await axios.get(`${API_BASE_URL}/cart?email=${email}`);
         setCartItems(res.data.cart_items);
       } catch (err) {
         console.error('Error fetching cart:', err);
@@ -32,7 +35,7 @@ const CartIcon = () => {
     }
   
     try {
-      await axios.delete(`http://localhost:8000/remove-from-cart`, {
+      await axios.delete(`${API_BASE_URL}/remove-from-cart`, {
         params: { email, reference_id: referenceId }
       });
   
@@ -41,10 +44,6 @@ const CartIcon = () => {
       console.error('Error removing item from cart:', err);
     }
   };
-  
-
-
-
 
   return (
     <div className="absolute top-6 right-6 z-50">
@@ -94,7 +93,7 @@ const CartIcon = () => {
                     ✕
                 </button>
             </div>
-        ))}
+          ))}
         </div>
       )}
     </div>
